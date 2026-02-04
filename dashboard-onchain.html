@@ -21,6 +21,8 @@
             .sidebar.active { left: 0; }
             .content-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 900; }
             .content-overlay.active { display: block; }
+            /* Garante que o centro seja absoluto para a logo */
+            .mobile-brand-center { position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 8px; }
         }
     </style>
 </head>
@@ -29,7 +31,7 @@
     <aside id="sidebar" class="sidebar w-64 flex-shrink-0 flex flex-col">
         <div class="p-6 flex items-center gap-3 border-b border-gray-800">
             <div class="logo-box w-8 h-8"><i class="fas fa-compass text-white text-sm"></i></div>
-            <div class="flex flex-col"><span class="text-lg font-black tracking-tighter leading-none">CriptoGuia <span class="text-blue-500">AI</span></span></div>
+            <div class="flex flex-col"><span class="text-lg font-black tracking-tighter leading-none text-white">CriptoGuia <span class="text-blue-500">AI</span></span></div>
         </div>
         <nav class="flex-grow p-4 space-y-2">
             <a href="dashboard-onchain.html" class="flex items-center p-3 rounded bg-blue-600 text-white font-bold"><i class="fas fa-chart-line mr-3"></i> Visão Geral</a>
@@ -41,16 +43,18 @@
     </aside>
 
     <main class="flex-grow flex flex-col overflow-hidden">
-        <header class="h-16 flex items-center justify-between px-4 border-b border-gray-700 bg-gray-900/90 backdrop-blur-md sticky top-0 z-50">
-            <div class="flex items-center gap-3">
-                <button onclick="toggleMenu()" class="md:hidden text-blue-500 text-xl p-2 mr-1"><i class="fas fa-bars"></i></button>
-                <div class="flex items-center gap-2">
-                    <div class="logo-box w-7 h-7"><i class="fas fa-compass text-white text-[12px]"></i></div>
-                    <span class="text-md font-black tracking-tighter">CriptoGuia <span class="text-blue-500">AI</span></span>
-                </div>
+        <header class="h-16 flex items-center justify-between px-4 border-b border-gray-700 bg-gray-900/90 backdrop-blur-md sticky top-0 z-50 relative">
+            <!-- Botão Menu Esquerda -->
+            <button onclick="toggleMenu()" class="md:hidden text-blue-500 text-xl p-2 z-50"><i class="fas fa-bars"></i></button>
+            
+            <!-- Logomarca CENTRALIZADA -->
+            <div class="mobile-brand-center z-10">
+                <div class="logo-box w-7 h-7"><i class="fas fa-compass text-white text-[12px]"></i></div>
+                <span class="text-md font-black tracking-tighter text-white">CriptoGuia <span class="text-blue-500">AI</span></span>
             </div>
-            <div class="flex items-center gap-3">
-                <div class="text-right hidden xs:block"><div id="btc-price-top" class="text-[9px] font-bold text-orange-500">BTC: $102,540</div><div id="countdown" class="text-[7px] text-gray-500 font-mono">05:00</div></div>
+            
+            <!-- Perfil Direita -->
+            <div class="flex items-center gap-2 z-50">
                 <div class="relative cursor-pointer" onclick="document.getElementById('photo-input').click()">
                     <input type="file" id="photo-input" class="hidden" accept="image/*" onchange="handleFileUpload(event)">
                     <img id="user-photo" src="https://ui-avatars.com/api/?name=Alfeu+Alves&background=3b82f6&color=fff" class="w-9 h-9 rounded-full border-2 border-blue-500 object-cover shadow-lg" alt="Perfil">
@@ -61,30 +65,32 @@
         <div class="flex-grow overflow-y-auto p-4 md:p-8 space-y-6">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                 <div class="card p-5 flex flex-col items-center">
-                    <div class="text-gray-500 text-[9px] uppercase font-black self-start mb-2">Sentimento Global</div>
-                    <div class="gauge-container"><svg viewBox="0 0 100 60"><defs><linearGradient id="g1"><stop offset="0%" stop-color="#ff4d4d"/><stop offset="50%" stop-color="#ffd24d"/><stop offset="100%" stop-color="#02c076"/></linearGradient></defs><path d="M 10 50 A 40 40 0 0 1 90 50" class="gauge-bg-path" stroke="url(#g1)" fill="none"/><polygon id="ptr-global" points="50,2 45,12 55,12" class="pointer"/></svg><div class="absolute inset-0 flex flex-col items-center justify-end pb-1"><div class="text-3xl font-black">17</div><div class="text-[9px] font-bold uppercase text-red-500">Medo extremo</div></div></div>
+                    <div class="text-gray-500 text-[9px] uppercase font-black self-start mb-2 tracking-widest">Sentimento Global</div>
+                    <div class="gauge-container"><svg viewBox="0 0 100 60"><defs><linearGradient id="g1"><stop offset="0%" stop-color="#ff4d4d"/><stop offset="50%" stop-color="#ffd24d"/><stop offset="100%" stop-color="#02c076"/></linearGradient></defs><path d="M 10 50 A 40 40 0 0 1 90 50" class="gauge-bg-path" stroke="url(#g1)" fill="none"/><polygon id="ptr-global" points="50,2 45,12 55,12" class="pointer"/></svg><div class="absolute inset-0 flex flex-col items-center justify-end pb-1"><div class="text-3xl font-black text-white">17</div><div class="text-[9px] font-bold uppercase text-red-500">Medo extremo</div></div></div>
                 </div>
                 <div class="card p-5 flex flex-col items-center">
-                    <div class="flex justify-between w-full mb-2"><div class="text-gray-500 text-[9px] uppercase font-black">Sentimento Ativo</div><select id="asset-selector" class="bg-gray-800 text-[9px] text-blue-400 border-none rounded" onchange="updateAssetUI()"><option value="btc">BITCOIN</option><option value="eth">ETHEREUM</option><option value="sol">SOLANA</option></select></div>
-                    <div class="gauge-container"><svg viewBox="0 0 100 60"><path d="M 10 50 A 40 40 0 0 1 90 50" class="gauge-bg-path" stroke="url(#g1)" fill="none"/><polygon id="ptr-asset" points="50,2 45,12 55,12" class="pointer"/></svg><div class="absolute inset-0 flex flex-col items-center justify-end pb-1"><div class="text-3xl font-black" id="val-asset">50</div><div class="text-[9px] font-bold uppercase text-gray-500" id="lbl-asset">Neutro</div></div></div>
+                    <div class="flex justify-between w-full mb-2"><div class="text-gray-500 text-[9px] uppercase font-black tracking-widest">Sentimento Ativo</div><select id="asset-selector" class="bg-gray-800 text-[9px] text-blue-400 border-none rounded px-1 font-bold" onchange="updateAssetUI()"><option value="btc">BITCOIN</option><option value="eth">ETHEREUM</option><option value="sol">SOLANA</option></select></div>
+                    <div class="gauge-container"><svg viewBox="0 0 100 60"><path d="M 10 50 A 40 40 0 0 1 90 50" class="gauge-bg-path" stroke="url(#g1)" fill="none"/><polygon id="ptr-asset" points="50,2 45,12 55,12" class="pointer"/></svg><div class="absolute inset-0 flex flex-col items-center justify-end pb-1"><div class="text-3xl font-black text-white" id="val-asset">50</div><div class="text-[9px] font-bold uppercase text-gray-500" id="lbl-asset">Neutro</div></div></div>
                 </div>
-                <div class="card p-5 border-l-4 border-blue-500"><div class="text-gray-500 text-[9px] uppercase font-bold">Redes Sociais</div><div class="text-lg font-black uppercase mt-1">EXPLOSIVO</div></div>
-                <div class="card p-5"><div class="text-gray-500 text-[9px] uppercase font-bold text-green-500">Fluxo ETF</div><div class="text-xl font-black">+$450M</div></div>
-                <div class="card p-5"><div class="text-gray-500 text-[9px] uppercase font-bold text-blue-400">Status</div><div class="flex items-center gap-2 mt-1"><div class="h-2 w-2 rounded-full bg-green-500 animate-ping"></div><div class="text-[10px] font-black uppercase">Online</div></div></div>
+                <div class="card p-5 border-l-4 border-blue-500"><div class="text-gray-500 text-[9px] uppercase font-black tracking-widest">Redes Sociais</div><div class="text-lg font-black uppercase mt-1 text-white">EXPLOSIVO</div></div>
+                <div class="card p-5"><div class="text-gray-500 text-[9px] uppercase font-black tracking-widest">Fluxo ETF</div><div class="text-xl font-black text-green-400">+$450M</div></div>
+                <div class="card p-5"><div class="text-gray-500 text-[9px] uppercase font-black tracking-widest">Status</div><div class="flex items-center gap-2 mt-1"><div class="h-2 w-2 rounded-full bg-green-500 animate-ping"></div><div class="text-[10px] font-black uppercase text-white">Online</div></div></div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pb-20">
-                <div class="lg:col-span-2 card overflow-hidden"><div class="p-4 border-b border-gray-800 font-bold text-[10px] uppercase text-blue-400 tracking-widest">Últimas Transações</div><div id="tx-feed" class="p-2 space-y-2"></div></div>
+                <div class="lg:col-span-2 card overflow-hidden"><div class="p-4 border-b border-gray-800 font-bold text-[10px] uppercase text-blue-400 tracking-widest flex items-center gap-2"><i class="fas fa-exchange-alt"></i> Últimas Transações</div><div id="tx-feed" class="p-2 space-y-2"></div></div>
                 <div class="space-y-4"><div class="ai-panel p-5 rounded-2xl border border-gray-700/50 shadow-2xl"><div class="flex items-center gap-2 mb-3 text-blue-400"><i class="fas fa-robot"></i><span class="font-black text-[10px] uppercase">IA Intel</span></div><p class="text-gray-300 text-[11px] leading-relaxed">Índice em 17. O pânico domina o varejo.</p></div><div id="news-feed" class="card p-5 space-y-3"></div></div>
             </div>
             
             <footer class="text-center py-10 border-t border-gray-800/50">
-                <div class="flex items-center justify-center gap-2 mb-2 opacity-50"><div class="logo-box w-5 h-5"><i class="fas fa-compass text-white text-[8px]"></i></div><span class="text-[10px] font-black tracking-tighter">CriptoGuia <span class="text-blue-500">AI</span></span></div>
-                <p class="text-[8px] text-gray-600 font-bold uppercase tracking-[0.3em]">Sua bússola na economia digital &bull; v2.7</p>
+                <div class="flex items-center justify-center gap-2 mb-2 opacity-50"><div class="logo-box w-5 h-5"><i class="fas fa-compass text-white text-[8px]"></i></div><span class="text-[10px] font-black tracking-tighter text-white">CriptoGuia <span class="text-blue-500">AI</span></span></div>
+                <p class="text-[8px] text-gray-600 font-bold uppercase tracking-[0.3em]">Sua bússola na economia digital &bull; v2.8</p>
             </footer>
         </div>
     </main>
+
     <div class="fixed bottom-4 right-4 z-[2000]"><button onclick="toggleMentor()" class="bg-blue-600 text-white w-12 h-12 rounded-full shadow-2xl flex items-center justify-center border-2 border-white/20 active:scale-90 transition-all"><i class="fas fa-comment-dots text-xl"></i></button><div id="mentor-chat" class="hidden absolute bottom-14 right-0 w-[90vw] sm:w-80 bg-[#1e2329] border border-gray-700 rounded-2xl shadow-2xl overflow-hidden flex flex-col"><div class="bg-blue-600 p-3 flex justify-between text-white text-[10px] font-bold uppercase"><span>Mentor GabrielBot</span><button onclick="toggleMentor()"><i class="fas fa-times"></i></button></div><div id="mentor-messages" class="h-60 overflow-y-auto p-4 space-y-3 text-[10px]"></div><div class="p-3 border-t border-gray-800 flex gap-2"><input type="text" id="mentor-input" placeholder="..." class="bg-gray-800 border-none rounded-lg text-xs flex-grow p-2 text-white outline-none" onkeypress="if(event.key==='Enter')sendMsg()"><button onclick="sendMsg()" class="text-blue-500 px-2"><i class="fas fa-paper-plane"></i></button></div></div></div>
+
     <script>
         const assetData = { btc: { s: 68 }, eth: { s: 42 }, sol: { s: 81 } };
         function toggleMenu() { document.getElementById('sidebar').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); }
@@ -96,11 +102,11 @@
         async function loadData() {
             const c = document.getElementById('tx-feed'); const n = document.getElementById('news-feed');
             try {
-                const resN = await fetch('market-news.json'); if(resN.ok) { const nd = await resN.json(); n.innerHTML = '<div class="text-yellow-500 font-bold text-[9px] mb-2 uppercase">Plantão Cripto</div>'; nd.top_stories.slice(0,3).forEach(s => n.innerHTML += `<div class="text-white text-[10px] border-b border-gray-700/30 pb-2">${s}</div>`); }
-                const resB = await fetch('raw-transactions.json'); if(resB.ok) { const txs = await resB.json(); c.innerHTML = ''; txs.slice(0, 5).forEach(t => c.innerHTML += `<div class="flex justify-between items-center p-3 bg-gray-800/30 rounded border border-gray-700/50 text-[10px] mb-2"><div class="flex items-center gap-2"><i class="fab fa-bitcoin text-orange-500"></i><span class="font-bold">${t.value} BTC</span></div><span class="text-gray-500">${t.timestamp}</span></div>`); }
+                const resN = await fetch('market-news.json'); if(resN.ok) { const nd = await resN.json(); n.innerHTML = '<div class="text-yellow-500 font-bold text-[9px] mb-2 uppercase tracking-widest">Plantão CriptoGuia</div>'; nd.top_stories.slice(0,3).forEach(s => n.innerHTML += `<div class="text-white text-[10px] border-b border-gray-700/30 pb-2">${s}</div>`); }
+                const resB = await fetch('raw-transactions.json'); if(resB.ok) { const txs = await resB.json(); c.innerHTML = ''; txs.slice(0, 5).forEach(t => c.innerHTML += `<div class="flex justify-between items-center p-3 bg-gray-800/30 rounded border border-gray-700/50 text-[10px] mb-2 hover:bg-gray-800 transition-colors"><div class="flex items-center gap-2"><i class="fab fa-bitcoin text-orange-500"></i><span class="font-bold">${t.value} BTC</span></div><span class="text-gray-500">${t.timestamp}</span></div>`); }
             } catch (e) {}
         }
-        window.onload = () => { const sp = localStorage.getItem('userPhoto'); if (sp) document.getElementById('user-photo').src = sp; setG('ptr-global', 17); updateAssetUI(); loadData(); let tl = 300; setInterval(() => { const min = Math.floor(tl / 60); const sec = tl % 60; document.getElementById('countdown').innerText = `${min.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`; if (tl <= 0) tl = 300; else tl--; }, 1000); };
+        window.onload = () => { const sp = localStorage.getItem('userPhoto'); if (sp) document.getElementById('user-photo').src = sp; setG('ptr-global', 17); updateAssetUI(); loadData(); let tl = 300; setInterval(() => { const min = Math.floor(tl / 60); const sec = tl % 60; document.getElementById('countdown').innerText = `${min.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`; if (tl <= 0) { tl = 300; loadData(); } else tl--; }, 1000); };
     </script>
 </body>
 </html>
