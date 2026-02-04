@@ -2,82 +2,84 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>On-Chain Intelligence System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background-color: #0b0e11; color: #eaecef; font-family: 'Segoe UI', sans-serif; margin: 0; }
-        .sidebar { background-color: #181a20; border-right: 1px solid #2b3139; transition: transform 0.3s ease; }
-        .card { background-color: #1e2329; border: 1px solid #2b3139; border-radius: 8px; }
+        body { background-color: #0b0e11; color: #eaecef; font-family: 'Segoe UI', sans-serif; margin: 0; overflow-x: hidden; }
+        .sidebar { background-color: #181a20; border-right: 1px solid #2b3139; z-index: 1000; transition: all 0.3s ease; }
+        .card { background-color: #1e2329; border: 1px solid #2b3139; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
         .ai-panel { background: linear-gradient(135deg, #1e2329 0%, #2b3139 100%); border: 1px solid #474d57; }
-        .gauge-container { position: relative; width: 100%; max-width: 220px; height: 120px; margin: 10px auto; }
+        .gauge-container { position: relative; width: 100%; max-width: 200px; height: 110px; margin: 0 auto; }
         .gauge-bg-path { fill: none; stroke-width: 12; stroke-linecap: round; }
         .pointer { fill: #ffffff; stroke: #000; stroke-width: 0.5; transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1); transform-origin: 50px 50px; }
         
-        /* Mobile Adjustments */
+        /* Mobile Specific */
         @media (max-width: 768px) {
-            .sidebar { position: fixed; height: 100%; z-index: 1000; transform: translateX(-100%); width: 250px; }
-            .sidebar.active { transform: translateX(0); }
-            .main-content { margin-left: 0 !important; }
-            .header-mobile { display: flex !important; }
+            .sidebar { position: fixed; left: -260px; top: 0; bottom: 0; width: 260px; }
+            .sidebar.active { left: 0; }
+            .content-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 900; }
+            .content-overlay.active { display: block; }
+            .main-container { width: 100vw; }
+            .hero-text { font-size: 2.5rem !important; }
         }
     </style>
 </head>
 <body class="flex h-screen overflow-hidden">
-    <!-- Sidebar -->
+    <div id="overlay" class="content-overlay" onclick="toggleMenu()"></div>
+
+    <!-- Sidebar Overlay Mobile -->
     <aside id="sidebar" class="sidebar w-64 flex-shrink-0 flex flex-col">
-        <div class="p-6 text-xl font-bold flex items-center justify-between">
-            <div class="flex items-center gap-2"><i class="fas fa-brain text-blue-500"></i><span>ON-CHAIN INTEL</span></div>
+        <div class="p-6 text-xl font-bold flex items-center justify-between border-b border-gray-800">
+            <div class="flex items-center gap-2"><i class="fas fa-brain text-blue-500"></i><span>ON-CHAIN</span></div>
             <button onclick="toggleMenu()" class="md:hidden text-gray-500"><i class="fas fa-times"></i></button>
         </div>
         <nav class="flex-grow p-4 space-y-2">
-            <a href="dashboard-onchain.html" class="flex items-center p-3 rounded bg-blue-600 text-white"><i class="fas fa-chart-line mr-3"></i> Visão Geral</a>
-            <a href="bitcoin-intel.html" class="flex items-center p-3 rounded hover:bg-gray-800"><i class="fab fa-bitcoin mr-3"></i> Bitcoin</a>
-            <a href="ethereum-intel.html" class="flex items-center p-3 rounded hover:bg-gray-800"><i class="fab fa-ethereum mr-3"></i> Ethereum</a>
-            <a href="solana-intel.html" class="flex items-center p-3 rounded hover:bg-gray-800"><i class="fas fa-bolt mr-3"></i> Solana</a>
+            <a href="dashboard-onchain.html" class="flex items-center p-3 rounded bg-blue-600 text-white font-bold"><i class="fas fa-chart-line mr-3"></i> Visão Geral</a>
+            <a href="bitcoin-intel.html" class="flex items-center p-3 rounded hover:bg-gray-800"><i class="fab fa-bitcoin mr-3 text-orange-500"></i> Bitcoin</a>
+            <a href="ethereum-intel.html" class="flex items-center p-3 rounded hover:bg-gray-800"><i class="fab fa-ethereum mr-3 text-blue-400"></i> Ethereum</a>
+            <a href="solana-intel.html" class="flex items-center p-3 rounded hover:bg-gray-800"><i class="fas fa-bolt mr-3 text-green-400"></i> Solana</a>
             <a href="settings.html" class="flex items-center p-3 rounded hover:bg-gray-800"><i class="fas fa-cog mr-3"></i> Configurações</a>
         </nav>
     </aside>
 
-    <main class="flex-grow flex flex-col overflow-hidden main-content">
-        <!-- Header Móvel -->
-        <header class="h-16 flex items-center justify-between px-4 border-b border-gray-700 bg-gray-900/50">
-            <button onclick="toggleMenu()" class="md:hidden bg-gray-800 p-2 rounded"><i class="fas fa-bars"></i></button>
-            <div class="flex items-center gap-4 text-[10px] md:text-sm">
-                <div id="btc-header">BTC: $102,540 <span class="text-green-400">1.2%</span></div>
-                <div id="eth-header" class="hidden sm:block">ETH: $2,755 <span class="text-red-400">-0.4%</span></div>
+    <main class="flex-grow flex flex-col overflow-hidden main-container">
+        <!-- Top Bar -->
+        <header class="h-14 flex items-center justify-between px-4 border-b border-gray-700 bg-gray-900/80 backdrop-blur-md">
+            <button onclick="toggleMenu()" class="md:hidden text-blue-500 text-lg p-2"><i class="fas fa-bars"></i></button>
+            <div class="flex items-center gap-3 text-[10px] md:text-xs font-bold uppercase tracking-tighter">
+                <span class="text-orange-500">BTC: $102k</span>
+                <span class="text-blue-400 hidden sm:inline">ETH: $2.7k</span>
             </div>
-            <div class="flex items-center gap-3">
-                <div id="countdown" class="text-[9px] bg-gray-800 px-2 py-1 rounded border border-gray-700">05:00</div>
-                <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-bold text-xs text-white">A</div>
+            <div class="flex items-center gap-2">
+                <div id="countdown" class="text-[9px] font-mono text-gray-500 bg-black/30 px-2 py-1 rounded">05:00</div>
+                <div class="w-7 h-7 rounded-full bg-blue-600 flex items-center justify-center font-bold text-[10px] shadow-lg">A</div>
             </div>
         </header>
 
-        <div class="flex-grow overflow-y-auto p-4 md:p-8 space-y-6">
-            <!-- Grid Responsivo de Cards -->
+        <div class="flex-grow overflow-y-auto p-4 space-y-6">
+            <!-- Gauges Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-                <!-- Sentimento Global -->
-                <div class="card p-6 flex flex-col items-center">
-                    <div class="text-gray-400 text-[10px] uppercase mb-1 self-start font-bold">Sentimento Global</div>
+                <div class="card p-5 flex flex-col items-center">
+                    <div class="text-gray-500 text-[9px] uppercase font-bold self-start mb-2">Sentimento Global</div>
                     <div class="gauge-container">
                         <svg viewBox="0 0 100 60">
-                            <defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ff4d4d"/><stop offset="50%" stop-color="#ffd24d"/><stop offset="100%" stop-color="#02c076"/></linearGradient></defs>
+                            <defs><linearGradient id="g1"><stop offset="0%" stop-color="#ff4d4d"/><stop offset="50%" stop-color="#ffd24d"/><stop offset="100%" stop-color="#02c076"/></linearGradient></defs>
                             <path d="M 10 50 A 40 40 0 0 1 90 50" class="gauge-bg-path" stroke="url(#g1)" fill="none" />
                             <polygon id="ptr-global" points="50,2 45,12 55,12" class="pointer" />
                         </svg>
-                        <div class="absolute inset-0 flex flex-col items-center justify-end pb-2">
-                            <div class="text-4xl font-black text-white">17</div>
-                            <div class="text-[11px] font-bold uppercase text-gray-400">Medo extremo</div>
+                        <div class="absolute inset-0 flex flex-col items-center justify-end pb-1">
+                            <div class="text-3xl font-black">17</div>
+                            <div class="text-[9px] font-bold uppercase text-red-500">Medo extremo</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Sentimento Ativo -->
-                <div class="card p-6 flex flex-col items-center">
-                    <div class="flex justify-between w-full mb-1">
-                        <div class="text-gray-400 text-[10px] uppercase font-bold">Sentimento Ativo</div>
-                        <select id="asset-selector" class="bg-gray-800 text-[10px] text-blue-400 border-none rounded" onchange="updateAssetUI()">
+                <div class="card p-5 flex flex-col items-center">
+                    <div class="flex justify-between w-full mb-2">
+                        <div class="text-gray-500 text-[9px] uppercase font-bold">Sentimento Ativo</div>
+                        <select id="asset-selector" class="bg-gray-800 text-[9px] text-blue-400 border-none rounded px-1" onchange="updateAssetUI()">
                             <option value="btc">BITCOIN</option><option value="eth">ETHEREUM</option><option value="sol">SOLANA</option>
                         </select>
                     </div>
@@ -86,98 +88,102 @@
                             <path d="M 10 50 A 40 40 0 0 1 90 50" class="gauge-bg-path" stroke="url(#g1)" fill="none" />
                             <polygon id="ptr-asset" points="50,2 45,12 55,12" class="pointer" />
                         </svg>
-                        <div class="absolute inset-0 flex flex-col items-center justify-end pb-2">
-                            <div class="text-4xl font-black text-white" id="val-asset">50</div>
-                            <div class="text-[11px] font-bold uppercase text-gray-400" id="lbl-asset">Neutro</div>
+                        <div class="absolute inset-0 flex flex-col items-center justify-end pb-1">
+                            <div class="text-3xl font-black" id="val-asset">50</div>
+                            <div class="text-[9px] font-bold uppercase text-gray-500" id="lbl-asset">Neutro</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Outros Cards -->
-                <div class="card p-6 border-l-4 border-blue-400">
-                    <div class="text-gray-400 text-[10px] uppercase font-bold">Redes Sociais</div>
-                    <div class="text-xl font-bold uppercase mt-2">EXPLOSIVO</div>
-                    <div class="text-[9px] text-blue-400 mt-1 font-bold">#SOLANABREAKOUT</div>
+                <div class="card p-5 border-l-4 border-blue-500">
+                    <div class="text-gray-500 text-[9px] uppercase font-bold">Redes Sociais</div>
+                    <div class="text-lg font-black uppercase mt-1">EXPLOSIVO</div>
+                    <div class="text-[9px] text-blue-400 font-bold tracking-widest mt-1">#SOLANABREAKOUT</div>
                 </div>
-                <div class="card p-6"><div class="text-gray-400 text-[10px] uppercase font-bold">Fluxo ETF</div><div class="text-2xl font-bold text-green-400">+$450M</div></div>
-                <div class="card p-6"><div class="text-gray-400 text-[10px] uppercase font-bold">Sistema</div><div class="flex items-center gap-2 mt-2"><div class="h-2 w-2 rounded-full bg-green-500 animate-pulse"></div><div class="text-sm font-bold uppercase">Conectado</div></div></div>
+
+                <div class="card p-5"><div class="text-gray-500 text-[9px] uppercase font-bold">Fluxo ETF (24h)</div><div class="text-xl font-black text-green-500 mt-1">+$450M</div></div>
+                <div class="card p-5"><div class="text-gray-500 text-[9px] uppercase font-bold">Status</div><div class="flex items-center gap-2 mt-2"><div class="h-2 w-2 rounded-full bg-green-500 animate-ping"></div><div class="text-[10px] font-black uppercase">Online</div></div></div>
             </div>
 
-            <!-- Feed e Notícias (Empilhados no Mobile) -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pb-20">
+            <!-- Feed Area -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="lg:col-span-2 card overflow-hidden">
-                    <div class="p-4 border-b border-gray-700 font-bold text-sm uppercase">Últimas Transações</div>
-                    <div id="tx-feed" class="p-4 space-y-4"></div>
+                    <div class="p-4 border-b border-gray-800 font-bold text-xs uppercase tracking-widest">Últimas Transações</div>
+                    <div id="tx-feed" class="p-2 space-y-2 max-h-[400px] overflow-y-auto"></div>
                 </div>
-                <div class="space-y-6">
-                    <div class="ai-panel p-6 rounded-lg shadow-xl border border-gray-700/50">
-                        <div class="flex items-center gap-2 mb-4 text-blue-400"><i class="fas fa-robot animate-pulse"></i><span class="font-bold text-xs uppercase tracking-widest">IA Intelligence</span></div>
-                        <p class="text-gray-300 text-[11px]">Mercado em Medo Extremo (17). Grandes baleias continuam monitoradas.</p>
+                <div class="space-y-4 pb-10">
+                    <div class="ai-panel p-5 rounded-xl border border-gray-700/50 shadow-2xl">
+                        <div class="flex items-center gap-2 mb-3 text-blue-400"><i class="fas fa-robot"></i><span class="font-black text-[10px] uppercase">IA Intel</span></div>
+                        <p class="text-gray-300 text-[11px] leading-relaxed">Índice em 17. O pânico domina o varejo, mas o fluxo institucional nos ETFs permanece positivo. Olhe para o longo prazo.</p>
                     </div>
-                    <div id="news-feed" class="card p-5 bg-gradient-to-b from-gray-800/50 to-transparent border-l-4 border-yellow-500 space-y-3"></div>
+                    <div id="news-feed" class="card p-5 space-y-3"></div>
                 </div>
             </div>
+            
+            <div class="text-center text-[8px] text-gray-600 uppercase pb-4">On-Chain Intel v2.0 Mobile Optimized</div>
         </div>
     </main>
 
     <!-- Mentor Widget -->
-    <div class="fixed bottom-6 right-6 z-50">
-        <button onclick="toggleMentor()" class="bg-blue-600 text-white w-12 h-12 rounded-full shadow-2xl flex items-center justify-center border-2 border-white/20"><i class="fas fa-robot text-xl"></i></button>
-        <div id="mentor-chat" class="hidden absolute bottom-16 right-0 w-[85vw] sm:w-80 bg-[#1e2329] border border-gray-700 rounded-2xl shadow-2xl overflow-hidden flex flex-col">
-            <div class="bg-blue-600 p-4 flex justify-between text-white text-xs font-bold uppercase"><span>Mentor</span><button onclick="toggleMentor()"><i class="fas fa-times"></i></button></div>
-            <div id="mentor-messages" class="h-64 overflow-y-auto p-4 space-y-4 text-[10px]"></div>
-            <div class="p-4 border-t border-gray-700 flex gap-2">
-                <input type="text" id="mentor-input" placeholder="..." class="bg-gray-800 border-none rounded-lg text-xs flex-grow p-2 text-white outline-none" onkeypress="if(event.key==='Enter')sendMentorMessage()">
-                <button onclick="sendMentorMessage()" class="text-blue-500"><i class="fas fa-paper-plane"></i></button>
+    <div class="fixed bottom-4 right-4 z-[2000]">
+        <button onclick="toggleMentor()" class="bg-blue-600 text-white w-12 h-12 rounded-full shadow-2xl flex items-center justify-center border-2 border-white/20 active:scale-90 transition-transform"><i class="fas fa-comment-dots"></i></button>
+        <div id="mentor-chat" class="hidden absolute bottom-14 right-0 w-[90vw] sm:w-80 bg-[#1e2329] border border-gray-700 rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+            <div class="bg-blue-600 p-3 flex justify-between text-white text-[10px] font-bold uppercase"><span>Mentor GabrielBot</span><button onclick="toggleMentor()"><i class="fas fa-times"></i></button></div>
+            <div id="mentor-messages" class="h-60 overflow-y-auto p-4 space-y-3 text-[10px]">
+                <div class="bg-blue-600/20 p-2 rounded-lg text-blue-100">Olá, Alfeu! Como posso ajudar hoje?</div>
+            </div>
+            <div class="p-3 border-t border-gray-800 flex gap-2">
+                <input type="text" id="mentor-input" placeholder="Dúvida..." class="bg-gray-800 border-none rounded-lg text-xs flex-grow p-2 text-white outline-none" onkeypress="if(event.key==='Enter')sendMsg()">
+                <button onclick="sendMsg()" class="text-blue-500 px-2"><i class="fas fa-paper-plane"></i></button>
             </div>
         </div>
     </div>
 
     <script>
         const assetData = { btc: { s: 68 }, eth: { s: 42 }, sol: { s: 81 } };
-        function toggleMenu() { document.getElementById('sidebar').classList.toggle('active'); }
+        function toggleMenu() { document.getElementById('sidebar').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); }
         function toggleMentor() { document.getElementById('mentor-chat').classList.toggle('hidden'); }
         
-        async function sendMentorMessage() {
+        async function sendMsg() {
             const i = document.getElementById('mentor-input'); const c = document.getElementById('mentor-messages');
             if (!i.value.trim()) return;
-            const msg = i.value; i.value = '';
-            c.innerHTML += `<div class="bg-gray-700/50 p-2 rounded-lg text-right ml-8 text-gray-300">${msg}</div>`;
+            const m = i.value; i.value = '';
+            c.innerHTML += `<div class="bg-gray-700/50 p-2 rounded-lg text-right ml-6 text-gray-300">${m}</div>`;
             c.scrollTop = c.scrollHeight;
             try {
-                const res = await fetch('http://localhost:8083/ask', { method: 'POST', body: JSON.stringify({ question: msg }) });
+                const res = await fetch('http://localhost:8083/ask', { method: 'POST', body: JSON.stringify({ question: m }) });
                 const d = await res.json();
-                c.innerHTML += `<div class="bg-blue-600/20 p-3 rounded-lg mr-8 text-blue-100">${d.answer}</div>`;
-            } catch (e) { c.innerHTML += `<div class="bg-red-900/20 p-3 rounded-lg mr-8">Offline</div>`; }
+                c.innerHTML += `<div class="bg-blue-600/20 p-2 rounded-lg mr-6 text-blue-100">${d.answer}</div>`;
+            } catch (e) { c.innerHTML += `<div class="bg-red-900/20 p-2 rounded-lg mr-6 text-[9px]">A conexão com o cérebro local falhou.</div>`; }
             c.scrollTop = c.scrollHeight;
         }
 
-        function setGauge(id, val, s) {
-            const ptr = document.getElementById(id); if(!ptr) return;
-            ptr.style.transform = `rotate(${(s * 1.8) - 90}deg)`;
+        function setG(id, s) {
+            const p = document.getElementById(id); if(!p) return;
+            p.style.transform = `rotate(${(s * 1.8) - 90}deg)`;
         }
-        function updateAssetUI() { setGauge('ptr-asset', null, assetData[document.getElementById('asset-selector').value].s); }
+        function updateAssetUI() { setG('ptr-asset', assetData[document.getElementById('asset-selector').value].s); document.getElementById('val-asset').innerText = assetData[document.getElementById('asset-selector').value].s; }
         
         async function loadData() {
             const c = document.getElementById('tx-feed'); const n = document.getElementById('news-feed');
             try {
                 const resN = await fetch('market-news.json'); if(resN.ok) {
-                    const nd = await resN.json(); n.innerHTML = '<div class="text-yellow-500 font-bold text-[10px] mb-2 uppercase">Plantão Cripto</div>';
-                    nd.top_stories.forEach(s => n.innerHTML += `<div class="text-white text-[10px] border-b border-gray-700/50 pb-2">${s}</div>`);
+                    const nd = await resN.json(); n.innerHTML = '<div class="text-yellow-500 font-bold text-[9px] mb-2 uppercase">Plantão Cripto</div>';
+                    nd.top_stories.slice(0,3).forEach(s => n.innerHTML += `<div class="text-white text-[10px] border-b border-gray-700/30 pb-2">${s}</div>`);
                 }
                 const resB = await fetch('raw-transactions.json'); if(resB.ok) {
                     const txs = await resB.json(); c.innerHTML = '';
-                    txs.slice(0, 8).forEach(t => c.innerHTML += `<div class="flex justify-between items-center p-3 bg-gray-800/30 rounded border border-gray-700/50 text-[10px]"><div class="flex items-center gap-2"><i class="fab fa-bitcoin text-orange-400"></i><span class="font-bold">${t.value} BTC</span></div><span class="text-gray-500">${t.timestamp}</span></div>`);
+                    txs.slice(0, 10).forEach(t => c.innerHTML += `<div class="flex justify-between items-center p-3 bg-gray-800/30 rounded border border-gray-700/50 text-[10px] mb-2"><div class="flex items-center gap-2"><i class="fab fa-bitcoin text-orange-500"></i><span class="font-bold">${t.value} BTC</span></div><span class="text-gray-500">${t.timestamp}</span></div>`);
                 }
             } catch (e) {}
         }
 
         let tl = 300; 
         window.onload = () => {
-            setGauge('ptr-global', null, 17); updateAssetUI(); loadData();
+            setG('ptr-global', 17); updateAssetUI(); loadData();
             setInterval(() => {
-                const m = Math.floor(tl / 60); const s = tl % 60;
-                document.getElementById('countdown').innerText = `${m.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`;
+                const min = Math.floor(tl / 60); const sec = tl % 60;
+                document.getElementById('countdown').innerText = `${min.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`;
                 if (tl <= 0) tl = 300; else tl--;
             }, 1000);
         };
