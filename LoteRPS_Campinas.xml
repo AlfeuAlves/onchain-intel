@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EnviarLoteRpsEnvio xmlns="http://www.abrasf.org.br/nfse.xsd">
+    <LoteRps Id="Lote2026002" versao="2.02">
+        <NumeroLote>2026002</NumeroLote>
+        <CpfCnpj>
+            <Cnpj>24488605000131</Cnpj>
+        </CpfCnpj>
+        <InscricaoMunicipal>003905373</InscricaoMunicipal>
+        <QuantidadeRps>2</QuantidadeRps>
+        <ListaRps>
+            
+            <Rps>
+                <InfRps Id="rps1">
+                    <IdentificacaoRps>
+                        <Numero>100</Numero>
+                        <Serie>E</Serie>
+                        <Tipo>1</Tipo>
+                    </IdentificacaoRps>
+                    <DataEmissao>2026-02-04T13:25:31</DataEmissao>
+                    <NaturezaOperacao>1</NaturezaOperacao>
+                    <OptanteSimplesNacional>1</OptanteSimplesNacional>
+                    <IncentivadorCultural>2</IncentivadorCultural>
+                    <Status>1</Status>
+                    <Servico>
+                        <Valores>
+                            <ValorServicos>59.90</ValorServicos>
+                            <IssRetido>2</IssRetido>
+                            <BaseCalculo>59.90</BaseCalculo>
+                            <Aliquota>0.00</Aliquota>
+                        </Valores>
+                        <ItemListaServico>17.02</ItemListaServico>
+                        <CodigoCnae>821999901</CodigoCnae>
+                        <Discriminacao>REFERENTE A 1,00 LICENÇA DO IPAINEL SENHA/GUICHE NO MES DE JANEIRO/2026.</Discriminacao>
+                        <CodigoMunicipio>3509502</CodigoMunicipio>
+                    </Servico>
+                    <Prestador>
+                        <CpfCnpj>
+                            <Cnpj>24488605000131</Cnpj>
+                        </CpfCnpj>
+                        <InscricaoMunicipal>003905373</InscricaoMunicipal>
+                    </Prestador>
+                    <Tomador>
+                        <IdentificacaoTomador>
+                            <CpfCnpj>
+                                <Cnpj>08563034000104</Cnpj>
+                            </CpfCnpj>
+                        </IdentificacaoTomador>
+                        <RazaoSocial>CLINICA BOGO E GALINDO</RazaoSocial>
+                    </Tomador>
+                </InfRps>
+            </Rps>
+            <Rps>
+                <InfRps Id="rps2">
+                    <IdentificacaoRps>
+                        <Numero>101</Numero>
+                        <Serie>E</Serie>
+                        <Tipo>1</Tipo>
+                    </IdentificacaoRps>
+                    <DataEmissao>2026-02-04T13:25:31</DataEmissao>
+                    <NaturezaOperacao>1</NaturezaOperacao>
+                    <OptanteSimplesNacional>1</OptanteSimplesNacional>
+                    <IncentivadorCultural>2</IncentivadorCultural>
+                    <Status>1</Status>
+                    <Servico>
+                        <Valores>
+                            <ValorServicos>299.80</ValorServicos>
+                            <IssRetido>2</IssRetido>
+                            <BaseCalculo>299.80</BaseCalculo>
+                            <Aliquota>0.00</Aliquota>
+                        </Valores>
+                        <ItemListaServico>17.02</ItemListaServico>
+                        <CodigoCnae>821999901</CodigoCnae>
+                        <Discriminacao>REFERENTE A 2,00 LICENÇA DO IPAINEL SENHA/GUICHE NO MES DE FEVEREIRO/2026.</Discriminacao>
+                        <CodigoMunicipio>3509502</CodigoMunicipio>
+                    </Servico>
+                    <Prestador>
+                        <CpfCnpj>
+                            <Cnpj>24488605000131</Cnpj>
+                        </CpfCnpj>
+                        <InscricaoMunicipal>003905373</InscricaoMunicipal>
+                    </Prestador>
+                    <Tomador>
+                        <IdentificacaoTomador>
+                            <CpfCnpj>
+                                <Cnpj>49052533000106</Cnpj>
+                            </CpfCnpj>
+                        </IdentificacaoTomador>
+                        <RazaoSocial>TOMADOR DO SERVIÇO</RazaoSocial>
+                    </Tomador>
+                </InfRps>
+            </Rps>
+        </ListaRps>
+    </LoteRps>
+</EnviarLoteRpsEnvio>
