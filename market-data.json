@@ -1,0 +1,25 @@
+{
+  "last_update": "2026-02-04T09:52:39.463Z",
+  "prices": {
+    "btc": {
+      "usd": 76223.99,
+      "change_24h": -2.71
+    },
+    "eth": {
+      "usd": 2263.26,
+      "change_24h": -1.423
+    },
+    "sol": {
+      "usd": 97.27,
+      "change_24h": -5.737
+    }
+  },
+  "global_sentiment": {
+    "score": 14,
+    "label": "Extreme Fear",
+    "color": "#cf304a"
+  },
+  "etf_correlation": {
+    "daily_inflow_usd": 450000000
+  }
+}

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Minuto Compliance - GabrielBot</title>
+    <style>
+        :root {
+            --primary-color: #004a80; /* Azul Corporativo */
+            --secondary-color: #f4f4f4;
+            --text-color: #333;
+        }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        header {
+            border-bottom: 3px solid var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+        h1 { color: var(--primary-color); margin: 0; }
+        .input-group {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        input[type="text"] {
+            flex-grow: 1;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            padding: 12px 25px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover { background-color: #003359; }
+        
+        .display-area {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+            display: none; /* Escondido até gerar */
+        }
+        .text-content {
+            padding: 20px;
+            border-left: 5px solid var(--primary-color);
+            background: #f9f9f9;
+            line-height: 1.6;
+        }
+        .image-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid var(--primary-color);
+            position: relative;
+        }
+        .image-content img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .image-label {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: rgba(0, 74, 128, 0.8);
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .meta {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Minuto Compliance</h1>
+        <p>Gere textos rápidos para reuniões de turno.</p>
+    </header>
+
+    <div class="input-group">
+        <input type="text" id="subjectInput" placeholder="Ex: Conflito de Interesses, Meio Ambiente, Segurança...">
+        <button onclick="generateContent()">Gerar Conteúdo</button>
+    </div>
+
+    <div class="display-area" id="displayArea">
+        <div class="text-content">
+            <h3 id="displayTitle">Título do Assunto</h3>
+            <div id="contentText">
+                <!-- Texto aparecerá aqui -->
+            </div>
+            <div class="meta">⏱️ Tempo estimado de leitura: 1 minuto</div>
+        </div>
+        <div class="image-content">
+            <!-- Espaço para Imagem Corporativa Padrão -->
+            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=80" alt="Corporativo">
+            <div class="image-label">Cultura de Integridade</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function generateContent() {
+        const subject = document.getElementById('subjectInput').value;
+        if (!subject) return alert("Por favor, informe um assunto.");
+
+        document.getElementById('displayTitle').innerText = subject.toUpperCase();
+        
+        // Simulação de geração de texto estruturado
+        const text = `
+            <p><strong>Olá equipe,</strong> hoje no nosso Minuto Compliance vamos falar sobre <strong>${subject}</strong>. </p>
+            <p>Em nossa operação de alumina, a integridade é tão importante quanto a segurança operacional. Quando falamos de ${subject}, estamos reforçando que cada decisão individual impacta a reputação de toda a nossa fábrica.</p>
+            <p>Lembre-se: agir corretamente não é apenas seguir uma regra, é proteger o nosso ambiente de trabalho e o futuro da nossa unidade. Se você presenciar algo que não esteja em conformidade com o nosso Código de Conduta referente a ${subject}, utilize nossos canais oficiais de denúncia. O sigilo é garantido.</p>
+            <p><strong>Compromisso com a ética é o que sustenta a nossa excelência. Bom turno a todos!</strong></p>
+        `;
+
+        document.getElementById('contentText').innerHTML = text;
+        document.getElementById('displayArea').style.display = 'grid';
+    }
+</script>
+
+</body>
+</html>

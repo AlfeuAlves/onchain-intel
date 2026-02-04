@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solana Intelligence - ON-CHAIN INTEL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background-color: #0b0e11; color: #eaecef; font-family: 'Segoe UI', sans-serif; }
+        .sidebar { background-color: #181a20; border-right: 1px solid #2b3139; }
+        .card { background-color: #1e2329; border: 1px solid #2b3139; border-radius: 8px; }
+        .accent-sol { color: #14f195; }
+        .progress-bg { background-color: #2b3139; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+    <aside class="sidebar w-64 flex-shrink-0 flex flex-col">
+        <div class="p-6 text-xl font-bold flex items-center gap-2"><i class="fas fa-brain text-blue-500"></i><span>ON-CHAIN INTEL</span></div>
+        <nav class="flex-grow p-4 space-y-2">
+            <a href="dashboard-onchain.html" class="flex items-center p-3 rounded hover:bg-gray-800"><i class="fas fa-chart-line mr-3"></i> Visão Geral</a>
+            <a href="bitcoin-intel.html" class="flex items-center p-3 rounded hover:bg-gray-800"><i class="fab fa-bitcoin mr-3"></i> Bitcoin</a>
+            <a href="ethereum-intel.html" class="flex items-center p-3 rounded hover:bg-gray-800"><i class="fab fa-ethereum mr-3"></i> Ethereum</a>
+            <a href="solana-intel.html" class="flex items-center p-3 rounded bg-blue-600 text-white"><i class="fas fa-bolt mr-3"></i> Solana</a>
+            <a href="settings.html" class="flex items-center p-3 rounded hover:bg-gray-800"><i class="fas fa-cog mr-3"></i> Configurações</a>
+        </nav>
+    </aside>
+    <main class="flex-grow flex flex-col overflow-hidden">
+        <header class="h-14 flex items-center justify-between px-8 border-b border-gray-700 bg-gray-900/50">
+            <div class="flex items-center gap-4"><i class="fas fa-bolt text-xl accent-sol"></i><h1 class="text-xs font-bold uppercase tracking-widest text-gray-400">Solana Intelligence Unit</h1></div>
+            <div class="text-[10px] text-gray-500 uppercase">Sincronizado via GabrielBot</div>
+        </header>
+
+        <div class="flex-grow overflow-y-auto p-8 space-y-8">
+            <!-- DESTAQUE HERO -->
+            <div class="card bg-gradient-to-r from-green-600/20 to-transparent p-8 border-l-4 border-green-500 relative overflow-hidden">
+                <i class="fas fa-bolt absolute -right-8 -top-8 text-9xl text-green-500/5 rotate-12"></i>
+                <div class="relative z-10">
+                    <div class="text-[10px] uppercase font-bold text-green-400 tracking-[0.2em] mb-2">Cotação Atual (SOL/USD)</div>
+                    <div class="flex items-baseline gap-4">
+                        <div class="text-6xl font-black tracking-tighter text-white" id="hero-price-sol">$100.00</div>
+                        <div class="text-xl font-bold text-green-400" id="hero-change-sol">+2.30%</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SAÚDE DA MOEDA -->
+            <div class="card p-6 border-l-4 border-green-400 shadow-lg">
+                <h2 class="text-sm font-bold mb-4 flex items-center gap-2"><i class="fas fa-seedling text-green-400"></i> Crescimento Sustentável</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <p class="text-xs text-gray-400 leading-relaxed">A Solana emite novas moedas de forma programada para diminuir 15% todos os anos até atingir um nível mínimo.</p>
+                        <div class="mt-4">
+                            <div class="flex justify-between text-[10px] mb-1"><span class="text-gray-500">Inflação Atual</span><span class="text-green-400 font-bold">5.2% (Decrescente)</span></div>
+                            <div class="w-full h-3 progress-bg rounded-full overflow-hidden border border-gray-700"><div class="h-full bg-gradient-to-r from-green-700 to-green-400" style="width: 60%"></div></div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800/30 p-4 rounded border border-gray-700/50"><div class="text-sm font-medium">Economia desenhada para atrair investidores de infraestrutura.</div></div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="card p-6"><div class="text-gray-400 text-[10px] uppercase mb-1">Velocidade (TPS)</div><div class="text-xl font-bold accent-sol" id="sol-tps">2,840</div></div>
+                <div class="card p-6"><div class="text-gray-400 text-[10px] uppercase mb-1">Status Rede</div><div class="text-xl font-bold text-green-400" id="sol-status">VELOZ</div></div>
+                <div class="card p-6"><div class="text-gray-400 text-[10px] uppercase mb-1">Custo Taxa</div><div class="text-xl font-bold text-blue-400">$0.00025</div></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="card p-6">
+                    <h2 class="text-sm font-bold mb-6 flex items-center gap-2"><i class="fas fa-wind text-blue-400"></i> Fluxo em Tempo Real</h2>
+                    <div id="tx-feed" class="space-y-3 h-80 overflow-y-auto pr-2"></div>
+                </div>
+                <div class="card p-6 flex flex-col justify-center">
+                    <h2 class="text-sm font-bold mb-4 flex items-center gap-2"><i class="fas fa-robot text-blue-400"></i> Dica GabrielBot</h2>
+                    <p class="text-xs text-gray-400 leading-relaxed italic border-b border-gray-700 pb-2">"Solana foca em escala massiva e baixo custo."</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        function genTx() { return { v: (10 + Math.random() * 50).toFixed(2), h: Math.random().toString(36).substr(2,6), t: new Date().toLocaleTimeString() }; }
+        function render(txs) {
+            const c = document.getElementById('tx-feed'); c.innerHTML = '';
+            (txs && txs.length ? txs : [genTx(),genTx(),genTx(),genTx(),genTx()]).forEach(t => {
+                c.innerHTML += `<div class="flex justify-between items-center p-3 bg-gray-800/50 rounded border border-gray-700 animate-pulse"><div class="flex items-center gap-3"><i class="fas fa-bolt text-purple-400"></i><div><div class="text-sm font-bold">${t.value || t.v} SOL</div><div class="text-[9px] text-gray-500">${t.hash || t.h}</div></div></div><div class="text-right text-[9px] text-gray-400">${t.timestamp || t.t}</div></div>`;
+            });
+        }
+        async function load() {
+            try { 
+                const mRes = await fetch('market-data.json'); 
+                if (mRes.ok) {
+                    const m = await mRes.json(); const sol = m.prices.sol;
+                    const p = sol.usd > 0 ? sol.usd : 100.00;
+                    document.getElementById('hero-price-sol').innerText = `$${p.toLocaleString()}`;
+                    const ce = document.getElementById('hero-change-sol'); ce.innerText = (sol.change_24h>=0?'+':'')+sol.change_24h.toFixed(2)+'%';
+                    ce.style.color = sol.change_24h>=0?'#02c076':'#cf304a';
+                }
+                const sRes = await fetch('sol-stats.json'); 
+                if (sRes.ok) {
+                    const s = await sRes.json(); document.getElementById('sol-tps').innerText = s.tps.toLocaleString();
+                    document.getElementById('sol-status').innerText = s.status.toUpperCase();
+                }
+                
+                // CORREÇÃO: Tentando ler o arquivo de transações reais da Solana
+                const res = await fetch('sol-transactions.json'); 
+                if (res.ok) {
+                    render(await res.json());
+                } else {
+                    render(); // Fallback para simulação dinâmica se o arquivo falhar
+                }
+            } catch(e) { render(); }
+        }
+        window.onload = () => { load(); setInterval(load, 10000); };
+    </script>
+</body>
+</html>

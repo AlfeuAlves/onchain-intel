@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitcoin Intelligence - ON-CHAIN INTEL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background-color: #0b0e11; color: #eaecef; font-family: 'Segoe UI', sans-serif; }
+        .sidebar { background-color: #181a20; border-right: 1px solid #2b3139; }
+        .card { background-color: #1e2329; border: 1px solid #2b3139; border-radius: 8px; }
+        .accent-orange { color: #f7931a; }
+        .progress-bg { background-color: #2b3139; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+    <aside class="sidebar w-64 flex-shrink-0 flex flex-col">
+        <div class="p-6 text-xl font-bold flex items-center gap-2"><i class="fas fa-brain text-blue-500"></i><span>ON-CHAIN INTEL</span></div>
+        <nav class="flex-grow p-4 space-y-2">
+            <a href="dashboard-onchain.html" class="flex items-center p-3 rounded hover:bg-gray-800"><i class="fas fa-chart-line mr-3"></i> Visão Geral</a>
+            <a href="bitcoin-intel.html" class="flex items-center p-3 rounded bg-orange-600 text-white"><i class="fab fa-bitcoin mr-3"></i> Bitcoin</a>
+            <a href="ethereum-intel.html" class="flex items-center p-3 rounded hover:bg-gray-800"><i class="fab fa-ethereum mr-3"></i> Ethereum</a>
+            <a href="solana-intel.html" class="flex items-center p-3 rounded hover:bg-gray-800"><i class="fas fa-bolt mr-3"></i> Solana</a>
+            <a href="settings.html" class="flex items-center p-3 rounded hover:bg-gray-800"><i class="fas fa-cog mr-3"></i> Configurações</a>
+        </nav>
+    </aside>
+    <main class="flex-grow flex flex-col overflow-hidden">
+        <header class="h-14 flex items-center justify-between px-8 border-b border-gray-700 bg-gray-900/50">
+            <div class="flex items-center gap-4"><i class="fab fa-bitcoin text-xl accent-orange"></i><h1 class="text-xs font-bold uppercase tracking-widest text-gray-400">Bitcoin Intelligence Unit</h1></div>
+            <div class="text-[10px] text-gray-500 uppercase">Sincronizado via GabrielBot</div>
+        </header>
+
+        <div class="flex-grow overflow-y-auto p-8 space-y-8">
+            <div class="card bg-gradient-to-r from-orange-600/20 to-transparent p-8 border-l-4 border-orange-500 relative overflow-hidden">
+                <i class="fab fa-bitcoin absolute -right-8 -top-8 text-9xl text-orange-500/5 rotate-12"></i>
+                <div class="relative z-10">
+                    <div class="text-[10px] uppercase font-bold text-orange-500 tracking-[0.2em] mb-2">Cotação Atual (BTC/USD)</div>
+                    <div class="flex items-baseline gap-4">
+                        <div class="text-6xl font-black tracking-tighter text-white" id="hero-price">$102,540</div>
+                        <div class="text-xl font-bold" id="hero-change">+1.25%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card p-6 border-l-4 border-yellow-500 shadow-lg">
+                <h2 class="text-sm font-bold mb-4 flex items-center gap-2"><i class="fas fa-gem text-yellow-500"></i> Escassez Digital</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <p class="text-xs text-gray-400 leading-relaxed">O Bitcoin tem um limite de 21 milhões de unidades. Isso o torna o ativo mais escasso do mundo.</p>
+                        <div class="mt-4">
+                            <div class="flex justify-between text-[10px] mb-1"><span class="text-gray-500 uppercase">Circulação (94%)</span><span class="text-white">19.8M / 21M</span></div>
+                            <div class="w-full h-3 progress-bg rounded-full overflow-hidden"><div class="h-full bg-yellow-500" style="width: 94%"></div></div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800/30 p-4 rounded border border-gray-700/50"><div class="text-sm font-medium">À medida que novos BTCs diminuem, a <span class="text-yellow-500 font-bold">ESCASSEZ</span> valoriza o ativo.</div></div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="card p-6 bg-gradient-to-br from-gray-900 to-black border-orange-500/30">
+                    <div class="text-[10px] text-gray-500 uppercase font-bold mb-3 flex items-center gap-2"><i class="fas fa-hourglass-half text-orange-500"></i> Próximo Halving</div>
+                    <div class="flex gap-4"><div class="text-center"><div class="text-2xl font-bold" id="h-d">780</div><div class="text-[8px] uppercase">Dias</div></div><div class="text-center"><div class="text-2xl font-bold" id="h-h">14</div><div class="text-[8px] uppercase">Horas</div></div><div class="text-center"><div class="text-2xl font-bold" id="h-m">45</div><div class="text-[8px] uppercase">Mins</div></div></div>
+                </div>
+                <div class="card p-6 border-l-4 border-blue-500"><div class="text-[10px] uppercase font-bold mb-1">Status Ciclo</div><div class="text-lg font-bold">FASE DE ACUMULAÇÃO</div></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="card p-6">
+                    <h2 class="text-sm font-bold mb-6 flex items-center gap-2"><i class="fas fa-eye text-blue-400"></i> Fluxo em Tempo Real</h2>
+                    <div id="tx-feed" class="space-y-3 h-80 overflow-y-auto pr-2"></div>
+                </div>
+                <div class="card p-6 flex flex-col justify-center">
+                    <h2 class="text-sm font-bold mb-4 flex items-center gap-2"><i class="fas fa-robot text-blue-400"></i> Dica GabrielBot</h2>
+                    <p class="text-xs text-gray-400 leading-relaxed italic">"O fluxo em tempo real mostra transações que acabaram de acontecer na rede Bitcoin."</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        function genTx() { return { v: (Math.random() * 0.5).toFixed(4), h: "bc1q"+Math.random().toString(36).substr(2,6), t: new Date().toLocaleTimeString() }; }
+        function render(txs) {
+            const c = document.getElementById('tx-feed'); c.innerHTML = '';
+            (txs && txs.length ? txs : [genTx(),genTx(),genTx(),genTx(),genTx()]).forEach(t => {
+                c.innerHTML += `<div class="flex justify-between items-center p-3 bg-gray-800/50 rounded border border-gray-700 animate-pulse"><div class="flex items-center gap-3"><i class="fab fa-bitcoin text-orange-400"></i><div><div class="text-sm font-bold">${t.value || t.v} BTC</div><div class="text-[9px] text-gray-500">${t.hash || t.h}</div></div></div><div class="text-right text-[9px] text-gray-400">${t.timestamp || t.t}</div></div>`;
+            });
+        }
+        async function load() {
+            try {
+                const mRes = await fetch('market-data.json'); if(mRes.ok) {
+                    const m = await mRes.json(); const b = m.prices.btc;
+                    document.getElementById('hero-price').innerText = `$${b.usd.toLocaleString()}`;
+                    const ce = document.getElementById('hero-change'); ce.innerText = (b.change_24h>=0?'+':'')+b.change_24h.toFixed(2)+'%';
+                    ce.style.color = b.change_24h>=0?'#02c076':'#cf304a';
+                }
+                const res = await fetch('raw-transactions.json'); render(res.ok ? await res.json() : null);
+            } catch(e) { render(); }
+        }
+        function startH() {
+            const target = new Date("April 20, 2028 00:00:00").getTime();
+            setInterval(() => {
+                const diff = target - new Date().getTime();
+                document.getElementById('h-d').innerText = Math.floor(diff/(1000*60*60*24));
+                document.getElementById('h-h').innerText = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+                document.getElementById('h-m').innerText = Math.floor((diff%(1000*60*60))/(1000*60));
+            }, 1000);
+        }
+        window.onload = () => { load(); setInterval(load, 10000); startH(); };
+    </script>
+</body>
+</html>

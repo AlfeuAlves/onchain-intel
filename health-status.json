@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Binance API",
+    "status": "ONLINE",
+    "latency": "772ms",
+    "last_check": "04/02/2026, 06:52:30"
+  },
+  {
+    "name": "Alternative.me",
+    "status": "ONLINE",
+    "latency": "479ms",
+    "last_check": "04/02/2026, 06:52:30"
+  },
+  {
+    "name": "Blockchain.info",
+    "status": "ONLINE",
+    "latency": "600ms",
+    "last_check": "04/02/2026, 06:52:30"
+  },
+  {
+    "name": "BlockCypher",
+    "status": "ONLINE",
+    "latency": "710ms",
+    "last_check": "04/02/2026, 06:52:30"
+  }
+]
