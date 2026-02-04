@@ -10,13 +10,13 @@
         body { background-color: #0b0e11; color: #eaecef; font-family: 'Segoe UI', sans-serif; margin: 0; overflow-x: hidden; }
         .sidebar { background-color: #181a20; border-right: 1px solid #2b3139; z-index: 1000; transition: all 0.3s ease; }
         .card { background-color: #1e2329; border: 1px solid #2b3139; border-radius: 12px; }
-        .accent-eth { color: #627eea; }
         .logo-box { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); }
         @media (max-width: 768px) {
             .sidebar { position: fixed; left: -260px; top: 0; bottom: 0; width: 260px; }
             .sidebar.active { left: 0; }
-            .content-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 900; }
+            .content-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 900; }
             .content-overlay.active { display: block; }
+            .mobile-brand-center { position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 8px; }
         }
     </style>
 </head>
@@ -24,36 +24,30 @@
     <div id="overlay" class="content-overlay" onclick="toggleMenu()"></div>
     <aside id="sidebar" class="sidebar w-64 flex-shrink-0 flex flex-col">
         <div class="p-6 flex items-center gap-3 border-b border-gray-800">
-            <div class="logo-box"><i class="fas fa-compass text-white text-sm"></i></div>
-            <div class="flex flex-col">
-                <span class="text-lg font-black tracking-tighter leading-none">CriptoGuia <span class="text-blue-500">AI</span></span>
-                <span class="text-[8px] text-gray-500 font-bold tracking-widest uppercase">By GabrielBot</span>
-            </div>
+            <div class="logo-box w-8 h-8"><i class="fas fa-compass text-white text-sm"></i></div>
+            <div class="flex flex-col"><span class="text-lg font-black tracking-tighter leading-none text-white">CriptoGuia <span class="text-blue-500">AI</span></span></div>
         </div>
         <nav class="flex-grow p-4 space-y-2">
             <a href="dashboard-onchain.html" class="flex items-center p-3 rounded hover:bg-gray-800 text-gray-400"><i class="fas fa-chart-line mr-3"></i> Visão Geral</a>
             <a href="bitcoin-intel.html" class="flex items-center p-3 rounded hover:bg-gray-800 text-gray-400"><i class="fab fa-bitcoin mr-3"></i> Bitcoin</a>
-            <a href="ethereum-intel.html" class="flex items-center p-3 rounded bg-blue-600 text-white font-bold"><i class="fab fa-ethereum mr-3"></i> Ethereum</a>
+            <a href="ethereum-intel.html" class="flex items-center p-3 rounded bg-blue-600 text-white font-bold shadow-lg shadow-blue-900/20"><i class="fab fa-ethereum mr-3"></i> Ethereum</a>
             <a href="solana-intel.html" class="flex items-center p-3 rounded hover:bg-gray-800 text-gray-400"><i class="fas fa-bolt mr-3"></i> Solana</a>
             <a href="settings.html" class="flex items-center p-3 rounded hover:bg-gray-800 text-gray-400"><i class="fas fa-cog mr-3"></i> Configurações</a>
         </nav>
-        <footer class="p-4 border-t border-gray-800 text-[9px] text-gray-600 text-center font-bold tracking-widest uppercase">
-            &copy; 2026 CriptoGuia AI
-        </footer>
     </aside>
 
     <main class="flex-grow flex flex-col overflow-hidden">
-        <header class="h-14 flex items-center justify-between px-4 border-b border-gray-700 bg-gray-900/80">
-            <div class="flex items-center gap-2">
-                <button onclick="toggleMenu()" class="md:hidden text-blue-400 text-lg p-2 mr-2"><i class="fas fa-bars"></i></button>
-                <div class="md:hidden flex items-center gap-2">
-                    <div class="logo-box w-6 h-6"><i class="fas fa-compass text-white text-[10px]"></i></div>
-                    <span class="text-xs font-black tracking-tighter">CriptoGuia <span class="text-blue-500">AI</span></span>
-                </div>
+        <header class="h-16 flex items-center justify-between px-4 border-b border-gray-700 bg-gray-900/90 backdrop-blur-md sticky top-0 z-50 relative">
+            <button onclick="toggleMenu()" class="md:hidden text-blue-500 text-xl p-2 z-50"><i class="fas fa-bars"></i></button>
+            <div class="mobile-brand-center z-10">
+                <div class="logo-box w-7 h-7"><i class="fas fa-compass text-white text-[12px]"></i></div>
+                <span class="text-md font-black tracking-tighter text-white">CriptoGuia <span class="text-blue-500">AI</span></span>
             </div>
-            <div class="relative group cursor-pointer">
-                <input type="file" id="photo-input" class="hidden" accept="image/*" onchange="handleFileUpload(event)">
-                <img id="user-photo" onclick="document.getElementById('photo-input').click()" src="https://ui-avatars.com/api/?name=Alfeu+Alves&background=3b82f6&color=fff" class="w-8 h-8 rounded-full border-2 border-blue-500 shadow-lg object-cover" alt="Perfil">
+            <div class="flex items-center gap-2 z-50">
+                <div class="relative cursor-pointer" onclick="document.getElementById('photo-input').click()">
+                    <input type="file" id="photo-input" class="hidden" accept="image/*" onchange="handleFileUpload(event)">
+                    <img id="user-photo" src="https://ui-avatars.com/api/?name=Alfeu+Alves&background=3b82f6&color=fff" class="w-9 h-9 rounded-full border-2 border-blue-500 object-cover shadow-lg" alt="Perfil">
+                </div>
             </div>
         </header>
 
@@ -65,39 +59,21 @@
                     <div class="text-lg font-bold" id="hero-change-eth">-0.42%</div>
                 </div>
             </div>
-
             <div class="card p-5 border-l-4 border-blue-400 shadow-lg">
                 <h2 class="text-xs font-bold mb-3 flex items-center gap-2"><i class="fas fa-gas-pump text-blue-400"></i> Dinheiro Ultrassônico</h2>
                 <div class="flex justify-between text-[8px] mb-1"><span>Queima (Deflação)</span><span class="text-orange-400 font-bold">ATIVO 🔥</span></div>
                 <div class="w-full h-2 bg-gray-800 rounded-full overflow-hidden"><div class="h-full bg-blue-500" style="width: 100%"></div></div>
             </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-10">
-                <div class="card p-5">
-                    <h2 class="text-xs font-bold mb-4 uppercase tracking-widest text-blue-400">Fluxo em Tempo Real</h2>
-                    <div id="tx-feed" class="space-y-2"></div>
-                </div>
-            </div>
-
-            <footer class="text-center py-6 border-t border-gray-800/50">
-                <span class="text-[10px] font-black tracking-tighter opacity-50">CriptoGuia <span class="text-blue-500">AI</span></span>
+            <div class="card p-5"><h2 class="text-xs font-bold mb-4 uppercase tracking-widest text-blue-400">Fluxo em Tempo Real</h2><div id="tx-feed" class="space-y-2"></div></div>
+            <footer class="text-center py-10 border-t border-gray-800/50">
+                <div class="flex items-center justify-center gap-2 mb-2 opacity-50"><div class="logo-box w-5 h-5"><i class="fas fa-compass text-white text-[8px]"></i></div><span class="text-[10px] font-black tracking-tighter text-white">CriptoGuia <span class="text-blue-500">AI</span></span></div>
+                <p class="text-[8px] text-gray-600 font-bold uppercase tracking-[0.3em]">Sua bússola na economia digital</p>
             </footer>
         </div>
     </main>
     <script>
         function toggleMenu() { document.getElementById('sidebar').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); }
-        function handleFileUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const b64 = e.target.result;
-                    document.getElementById('user-photo').src = b64;
-                    localStorage.setItem('userPhoto', b64);
-                };
-                reader.readAsDataURL(file);
-            }
-        }
+        function handleFileUpload(e) { const f = e.target.files[0]; if (f) { const r = new FileReader(); r.onload = (x) => { document.getElementById('user-photo').src = x.target.result; localStorage.setItem('userPhoto', x.target.result); }; r.readAsDataURL(f); } }
         function genTx() { return { v: (1 + Math.random() * 5).toFixed(4), h: "0x"+Math.random().toString(16).substr(2,6), t: new Date().toLocaleTimeString() }; }
         function render(txs) {
             const c = document.getElementById('tx-feed'); c.innerHTML = '';
@@ -115,8 +91,7 @@
                 }
                 const res = await fetch('eth-transactions.json'); render(res.ok ? await res.json() : null);
             } catch(e) { render(); }
-            const savedPhoto = localStorage.getItem('userPhoto');
-            if (savedPhoto) document.getElementById('user-photo').src = savedPhoto;
+            const sp = localStorage.getItem('userPhoto'); if (sp) document.getElementById('user-photo').src = sp;
         }
         window.onload = () => { load(); setInterval(load, 15000); };
     </script>
