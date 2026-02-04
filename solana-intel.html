@@ -11,7 +11,6 @@
         .sidebar { background-color: #181a20; border-right: 1px solid #2b3139; z-index: 1000; transition: all 0.3s ease; }
         .card { background-color: #1e2329; border: 1px solid #2b3139; border-radius: 12px; }
         .accent-sol { color: #14f195; }
-        .progress-bg { background-color: #2b3139; }
         .logo-box { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); }
         @media (max-width: 768px) {
             .sidebar { position: fixed; left: -260px; top: 0; bottom: 0; width: 260px; }
@@ -74,12 +73,7 @@
                 <div class="card p-5"><div class="text-[9px] uppercase font-bold text-gray-500 mb-1">Taxa</div><div class="text-lg font-bold text-blue-400">$0.00025</div></div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-10">
-                <div class="card p-5">
-                    <h2 class="text-xs font-bold mb-4 uppercase tracking-widest text-green-400">Fluxo em Tempo Real</h2>
-                    <div id="tx-feed" class="space-y-2 max-h-60 overflow-y-auto"></div>
-                </div>
-            </div>
+            <div class="card p-5"><h2 class="text-xs font-bold mb-4 uppercase tracking-widest text-green-400">Fluxo em Tempo Real</h2><div id="tx-feed" class="space-y-2"></div></div>
 
             <footer class="text-center py-10 border-t border-gray-800/50">
                 <div class="flex items-center justify-center gap-2 mb-2 opacity-50"><div class="logo-box w-5 h-5"><i class="fas fa-compass text-white text-[8px]"></i></div><span class="text-[10px] font-black tracking-tighter text-white">CriptoGuia <span class="text-blue-500">AI</span></span></div>
