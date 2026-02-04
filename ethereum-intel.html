@@ -2,91 +2,86 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ethereum Intelligence - ON-CHAIN INTEL</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ethereum Intelligence - ON-CHAIN</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background-color: #0b0e11; color: #eaecef; font-family: 'Segoe UI', sans-serif; }
-        .sidebar { background-color: #181a20; border-right: 1px solid #2b3139; }
-        .card { background-color: #1e2329; border: 1px solid #2b3139; border-radius: 8px; }
+        body { background-color: #0b0e11; color: #eaecef; font-family: 'Segoe UI', sans-serif; margin: 0; overflow-x: hidden; }
+        .sidebar { background-color: #181a20; border-right: 1px solid #2b3139; z-index: 1000; transition: all 0.3s ease; }
+        .card { background-color: #1e2329; border: 1px solid #2b3139; border-radius: 12px; }
         .accent-eth { color: #627eea; }
         .progress-bg { background-color: #2b3139; }
+        @media (max-width: 768px) {
+            .sidebar { position: fixed; left: -260px; top: 0; bottom: 0; width: 260px; }
+            .sidebar.active { left: 0; }
+            .content-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 900; }
+            .content-overlay.active { display: block; }
+        }
     </style>
 </head>
 <body class="flex h-screen overflow-hidden">
-    <aside class="sidebar w-64 flex-shrink-0 flex flex-col">
-        <div class="p-6 text-xl font-bold flex items-center gap-2"><i class="fas fa-brain text-blue-500"></i><span>ON-CHAIN INTEL</span></div>
+    <div id="overlay" class="content-overlay" onclick="toggleMenu()"></div>
+    <aside id="sidebar" class="sidebar w-64 flex-shrink-0 flex flex-col">
+        <div class="p-6 text-xl font-bold flex items-center justify-between border-b border-gray-800">
+            <div class="flex items-center gap-2"><i class="fas fa-brain text-blue-500"></i><span>ON-CHAIN</span></div>
+            <button onclick="toggleMenu()" class="md:hidden text-gray-500"><i class="fas fa-times"></i></button>
+        </div>
         <nav class="flex-grow p-4 space-y-2">
             <a href="dashboard-onchain.html" class="flex items-center p-3 rounded hover:bg-gray-800"><i class="fas fa-chart-line mr-3"></i> Visão Geral</a>
             <a href="bitcoin-intel.html" class="flex items-center p-3 rounded hover:bg-gray-800"><i class="fab fa-bitcoin mr-3"></i> Bitcoin</a>
-            <a href="ethereum-intel.html" class="flex items-center p-3 rounded bg-blue-600 text-white"><i class="fab fa-ethereum mr-3"></i> Ethereum</a>
+            <a href="ethereum-intel.html" class="flex items-center p-3 rounded bg-blue-600 text-white font-bold"><i class="fab fa-ethereum mr-3"></i> Ethereum</a>
             <a href="solana-intel.html" class="flex items-center p-3 rounded hover:bg-gray-800"><i class="fas fa-bolt mr-3"></i> Solana</a>
             <a href="settings.html" class="flex items-center p-3 rounded hover:bg-gray-800"><i class="fas fa-cog mr-3"></i> Configurações</a>
         </nav>
     </aside>
+
     <main class="flex-grow flex flex-col overflow-hidden">
-        <header class="h-14 flex items-center justify-between px-8 border-b border-gray-700 bg-gray-900/50">
-            <div class="flex items-center gap-4"><i class="fab fa-ethereum text-xl accent-eth"></i><h1 class="text-xs font-bold uppercase tracking-widest text-gray-400">Ethereum Intelligence Unit</h1></div>
-            <div class="text-[10px] text-gray-500 uppercase">Sincronizado via GabrielBot</div>
+        <header class="h-14 flex items-center justify-between px-4 border-b border-gray-700 bg-gray-900/80">
+            <button onclick="toggleMenu()" class="md:hidden text-blue-400 text-lg p-2"><i class="fas fa-bars"></i></button>
+            <div class="flex items-center gap-2 text-xs font-bold uppercase"><i class="fab fa-ethereum accent-eth"></i><span>Ethereum Unit</span></div>
+            <div class="w-7 h-7 rounded-full bg-blue-600 flex items-center justify-center font-bold text-[10px]">A</div>
         </header>
 
-        <div class="flex-grow overflow-y-auto p-8 space-y-8">
-            <!-- DESTAQUE HERO -->
-            <div class="card bg-gradient-to-r from-blue-600/20 to-transparent p-8 border-l-4 border-blue-500 relative overflow-hidden">
-                <i class="fab fa-ethereum absolute -right-8 -top-8 text-9xl text-blue-500/5 rotate-12"></i>
-                <div class="relative z-10">
-                    <div class="text-[10px] uppercase font-bold text-blue-400 tracking-[0.2em] mb-2">Cotação Atual (ETH/USD)</div>
-                    <div class="flex items-baseline gap-4">
-                        <div class="text-6xl font-black tracking-tighter text-white" id="hero-price-eth">$2,755</div>
-                        <div class="text-xl font-bold" id="hero-change-eth">-0.42%</div>
-                    </div>
+        <div class="flex-grow overflow-y-auto p-4 space-y-6">
+            <div class="card bg-gradient-to-r from-blue-600/20 to-transparent p-6 border-l-4 border-blue-500">
+                <div class="text-[9px] uppercase font-bold text-blue-400 tracking-widest mb-1">Cotação Atual</div>
+                <div class="flex items-baseline gap-3">
+                    <div class="text-4xl md:text-6xl font-black text-white" id="hero-price-eth">$2,755</div>
+                    <div class="text-lg font-bold" id="hero-change-eth">-0.42%</div>
                 </div>
             </div>
 
-            <!-- SAÚDE DA MOEDA -->
-            <div class="card p-6 border-l-4 border-blue-400 shadow-lg">
-                <h2 class="text-sm font-bold mb-4 flex items-center gap-2"><i class="fas fa-gas-pump text-blue-400"></i> Dinheiro Ultrassônico</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                    <div>
-                        <p class="text-xs text-gray-400 leading-relaxed">O Ethereum destrói parte das taxas de cada transação, tornando-se mais escasso pelo uso.</p>
-                        <div class="mt-4">
-                            <div class="flex justify-between text-[10px] mb-1"><span class="text-gray-500">Queima (Deflação)</span><span class="text-orange-400 font-bold">ATIVO 🔥</span></div>
-                            <div class="w-full h-3 progress-bg rounded-full overflow-hidden"><div class="h-full bg-blue-500" style="width: 100%"></div></div>
-                        </div>
-                    </div>
-                    <div class="bg-gray-800/30 p-4 rounded border border-gray-700/50"><div class="text-sm font-medium">Quanto mais uso, menos moedas sobram no mercado.</div></div>
-                </div>
+            <div class="card p-5 border-l-4 border-blue-400">
+                <h2 class="text-xs font-bold mb-3 flex items-center gap-2"><i class="fas fa-gas-pump text-blue-400"></i> Dinheiro Ultrassônico</h2>
+                <p class="text-[11px] text-gray-400 leading-relaxed">O Ethereum destrói taxas de cada transação, tornando-se mais escasso pelo uso.</p>
+                <div class="mt-4"><div class="flex justify-between text-[8px] mb-1"><span>Queima (Deflação)</span><span class="text-orange-400 font-bold">ATIVO 🔥</span></div>
+                <div class="w-full h-2 progress-bg rounded-full overflow-hidden border border-gray-700"><div class="h-full bg-gradient-to-r from-blue-700 to-blue-400" style="width: 100%"></div></div></div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="card p-6"><div class="text-gray-400 text-[10px] uppercase mb-1">Staking</div><div class="text-xl font-bold" id="eth-staking-val">28.4%</div></div>
-                <div class="card p-6 border-l-4 border-orange-500"><div class="text-gray-400 text-[10px] uppercase mb-1">Queima (Burn)</div><div class="text-xl font-bold text-orange-400" id="eth-burn-rate">0.54 ETH/min</div></div>
-                <div class="card p-6"><div class="text-gray-400 text-[10px] uppercase mb-1">Ecossistema</div><div class="text-xl font-bold text-blue-400">DEFI LEADER</div></div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="card p-5"><div class="text-[9px] uppercase font-bold text-gray-500 mb-1">Staking</div><div class="text-xl font-bold" id="eth-staking-val">28.4%</div></div>
+                <div class="card p-5 border-l-4 border-orange-500"><div class="text-[9px] uppercase font-bold text-gray-500 mb-1">Queima (Burn)</div><div class="text-xl font-bold text-orange-400" id="eth-burn-rate">0.54 ETH/min</div></div>
+                <div class="card p-5"><div class="text-[9px] uppercase font-bold text-gray-500 mb-1">Ecossistema</div><div class="text-lg font-bold text-blue-400">DEFI LEADER</div></div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div class="card p-6">
-                    <h2 class="text-sm font-bold mb-6 flex items-center gap-2"><i class="fas fa-water text-blue-400"></i> Fluxo em Tempo Real</h2>
-                    <div id="tx-feed" class="space-y-3 h-80 overflow-y-auto pr-2"></div>
-                </div>
-                <div class="card p-6 flex flex-col justify-center">
-                    <h2 class="text-sm font-bold mb-4 flex items-center gap-2"><i class="fas fa-robot text-blue-400"></i> Dica GabrielBot</h2>
-                    <p class="text-xs text-gray-400 leading-relaxed italic">"O Ethereum queima moedas conforme a rede é usada. Isso o torna escasso e valioso a longo prazo."</p>
-                </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-10">
+                <div class="card p-5"><h2 class="text-xs font-bold mb-4">Fluxo em Tempo Real</h2><div id="tx-feed" class="space-y-2 max-h-60 overflow-y-auto"></div></div>
+                <div class="card p-5 bg-blue-900/10 border-blue-500/20"><p class="text-[10px] italic text-gray-400">"Ethereum queima moedas conforme a rede é usada."</p></div>
             </div>
         </div>
     </main>
     <script>
+        function toggleMenu() { document.getElementById('sidebar').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); }
         function genTx() { return { v: (1 + Math.random() * 5).toFixed(4), h: "0x"+Math.random().toString(16).substr(2,6), t: new Date().toLocaleTimeString() }; }
         function render(txs) {
             const c = document.getElementById('tx-feed'); c.innerHTML = '';
-            (txs && txs.length ? txs : [genTx(),genTx(),genTx(),genTx(),genTx()]).forEach(t => {
-                c.innerHTML += `<div class="flex justify-between items-center p-3 bg-gray-800/50 rounded border border-gray-700 animate-pulse"><div class="flex items-center gap-3"><i class="fab fa-ethereum text-blue-400"></i><div><div class="text-sm font-bold">${t.value || t.v} ETH</div><div class="text-[9px] text-gray-500">${t.hash || t.h}</div></div></div><div class="text-right text-[9px] text-gray-400">${t.timestamp || t.t}</div></div>`;
+            (txs && txs.length ? txs : [genTx(),genTx(),genTx()]).forEach(t => {
+                c.innerHTML += `<div class="flex justify-between items-center p-2 bg-gray-800/50 rounded border border-gray-700 text-[10px] mb-2"><div class="flex items-center gap-2"><i class="fab fa-ethereum text-blue-400"></i><span class="font-bold">${t.value || t.v} ETH</span></div><span class="text-gray-500">${t.timestamp || t.t}</span></div>`;
             });
         }
         async function load() {
-            try {
+            try { 
                 const mRes = await fetch('market-data.json'); if(mRes.ok) {
                     const m = await mRes.json(); const eth = m.prices.eth;
                     document.getElementById('hero-price-eth').innerText = `$${eth.usd.toLocaleString()}`;
@@ -101,7 +96,7 @@
                 const res = await fetch('eth-transactions.json'); render(res.ok ? await res.json() : null);
             } catch(e) { render(); }
         }
-        window.onload = () => { load(); setInterval(load, 10000); };
+        window.onload = () => { load(); setInterval(load, 15000); };
     </script>
 </body>
 </html>
